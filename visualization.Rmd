@@ -16,8 +16,7 @@ students_performance<-read_excel("C:/Users/lenovo/OneDrive/Belgeler/StudentsPerf
 ```{r}
 library(ggplot2)
 qplot(math_score,reading_score , data = students_performance,
-geom = c("point", "smooth")) #iki değişken arasında pozitif yönlü ilişki olduğunu görüyoruz.
-
+geom = c("point", "smooth")) # We can see that there is a positive relationship between the two variables.
 ```
 ```{r}
 students_performance$gender <- factor(students_performance$gender)
@@ -66,7 +65,7 @@ a+stat_ecdf()
 ```
 ```{r}
 ggplot(students_performance, aes(x = math_score, fill = race_ethnicity))+
-  geom_area(stat = "bin") #matematik skorunun en yüksek notunu alan gurup A grubu'dur.
+  geom_area(stat = "bin") # The group with the highest math score is group A.
 ```
 
 ```{r}
@@ -85,7 +84,7 @@ alpha=0.5, position="identity")+
 geom_density(aes(color = gender), size = 1)
 c + geom_histogram(aes(y=..density.., color = gender, fill = gender),
 alpha=0.5, position="identity")+
-geom_density(aes(color = gender), size = 1) #okuma yazma ve matematik skorlarının cinsiyete göre dağılımı.Her üç değişken için de kadınlar erkeklerden daha yüksek not almıştır.
+geom_density(aes(color = gender), size = 1) # Distribution of reading, writing, and math scores by gender. For all three variables, females scored higher than males.
 ```
 ```{r}
 p <- ggplot(students_performance, aes(sample=math_score))
@@ -105,7 +104,7 @@ m<- ggplot(students_performance, aes(x = math_score, y = reading_score))
 m<- ggplot(students_performance, aes(x = math_score, y = reading_score))
 m + geom_point(aes(color = race_ethnicity, shape = race_ethnicity)) +
 geom_smooth(aes(color = race_ethnicity), method = lm, se = FALSE,
-fullrange = TRUE) #Irkların matematik ve okuma değişkenlerine göre değılımları.
+fullrange = TRUE) # Distribution of races based on math and reading variables.
 ```
 
 ```{r}
@@ -115,25 +114,24 @@ m + geom_hex(bins = 10)
 ```{r}
 m + geom_point() +
 stat_density_2d(aes(fill = ..level..), geom="polygon") +
-scale_fill_gradient(low="#00AFBB", high="#FC4E07") #Bu grafiğe bakarak notların daha çok 60-70 aralığında alındığını söyleyebiliriz.
-
+scale_fill_gradient(low="#00AFBB", high="#FC4E07") # Based on this graph, most scores fall within the 60-70 range.
 ```
 ```{r}
 k<- ggplot(students_performance, aes(x = race_ethnicity, y = math_score, fill= race_ethnicity))
 k + geom_boxplot() +
 stat_summary(fun.y = mean, geom = "point",
-shape = 18, size = 4, color = "blue") #Bu grafikte B,C,D ve E gruplarında uç değerler olduğunu görüyoruz.
+shape = 18, size = 4, color = "blue") # This graph shows that there are outliers in groups B, C, D, and E.
 
 ```
 
 ```{r}
 k + geom_jitter(aes(color = gender, shape = gender),
-position=position_jitter(0.2)) #Irklara göre matematik skor dağılımının cinsiyete göre nasıl dağıldığı gösterilmiştir.Gruplar arasında ciddi skor farkları yoktur.
+position=position_jitter(0.2)) # Shows how the distribution of math scores by race varies by gender. There are no significant score differences between groups.
 ```
 
 ```{r}
 g <- ggplot(data=students_performance, aes(x=race_ethnicity, y=math_score, fill=gender))
-g + geom_bar(stat = "identity") #Bu grafikte ırklara göre kadın ve erkek oranları verilmiştir.
+g + geom_bar(stat = "identity") # This graph shows the proportion of females and males by race.
 ```
 
 ```{r}
@@ -142,7 +140,7 @@ label_ypos=cumsum(students_performance$math_score)
 ggplot(data=students_performance, aes(x = test_preparation_course, y = math_score, fill = gender)) +
 geom_bar(stat = "identity")+
 geom_text(aes(y = label_ypos, label = math_score), vjust = 1.6,
-color = "white", size = 3.5) #Bu grafikte de kurs alan öğrencilerin ders almayanlara göre daha düşük notlar aldığını görüypruz.
+color = "white", size = 3.5) # This graph shows that students who took the course scored lower than those who did not.
 ```
 ```{r}
 ggplot(students_performance, aes(x=race_ethnicity, y=math_score, group=gender)) +
@@ -157,7 +155,7 @@ ggplot(data = students_performance) +
   labs(y = "", title=" offset = 0.01") +
   theme(axis.text.y=element_blank(),
         axis.ticks.y=element_blank(),
-        axis.text.x = element_text(angle = 90)) #Az bir gurubun master's degree yaptığını görüyoruz.
+        axis.text.x = element_text(angle = 90)) # We can see that a small group has a master's degree.
 
 ```
 ```{r}
@@ -166,16 +164,17 @@ stars(students_performance[,6:8], len = 0.8, key.loc = c(12, 1.5),
       main = "star plot", draw.segments = TRUE)
 ```
 ```{r}
-sunflowerplot(students_performance$math_score,students_performance$reading_score, xlab="Math Score",  ylab="Reading Score",xlim=c(20,100),ylim=c(20,100)) # Burada yoğunluğun 60-80 arasında olduğunu görüyoruz.
+sunflowerplot(students_performance$math_score,students_performance$reading_score, xlab="Math Score",  ylab="Reading Score",xlim=c(20,100),ylim=c(20,100)) # Here, we see that the density is between 60-80.
 ```
 ```{r}
 x<-as.data.frame(table(students_performance$race_ethnicity))
 library(plotrix)
-fan.plot(x$Freq, labels = as.character(x$Var1),col=c("red", "steelblue", "orange","yellow","green" )) #en çok kişiye sahip olan grup C iken en az kişiye sahip olan grup A'dır.
+fan.plot(x$Freq, labels = as.character(x$Var1),col=c("red", "steelblue", "orange","yellow","green" )) # The group with the most people is group C, while the group with the fewest people is group A.
 ```
 ```{r}
 GGally::ggpairs(students_performance[c(4,6,7,8)], aes(color = lunch))
 ```
+
 
 
 
